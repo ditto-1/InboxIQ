@@ -9,6 +9,10 @@ function App(){
     const fetchEmails = async()=> {
       try{
         const response = await fetch("http://localhost:3000/emails");
+        if (response.status === 401){
+          window.location.href="http://localhost:3000/auth/google";
+          return;
+        }
         const data = await response.json();
         console.log(data);
         setEmails(data);

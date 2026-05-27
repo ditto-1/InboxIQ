@@ -33,7 +33,7 @@ app.get("/auth/google/callback", async (req, res) => {
 
     oauth2Client.setCredentials(tokens);
     savedtokens = tokens;
-    res.send("Login successful!");
+    res.redirect("http://localhost:5173");
   } catch (error) {
     console.error(error);
     res.send("Authentication failed");
@@ -44,7 +44,7 @@ app.get("/emails", async(req, res) => {
   try {
 
       if (!savedtokens){
-          return res.send("Please login first");
+          return res.status(401).send("Please login first");
       }
 
       oauth2Client.setCredentials(savedtokens);
