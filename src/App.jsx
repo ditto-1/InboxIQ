@@ -1,32 +1,28 @@
-import { act, useState } from "react";
+import { useEffect, useState } from "react";
 import EmailCard from "./EmailCard";
 function App(){
   const [filter, setFilter] = useState("All");
-  const emails = [{
-    sender: "example@gmail.com",
-    subject: "Intern application update",
-    snippet: "We would like to arrange a metting this week.",
-  },
-  {
-    sender: "newsletter@techdaily.com",
-    subject: "This week in tech",
-    snippet: "Here are the latest updates from the tech world.",
-  },
-  {
-    sender: "professor@university.edu",
-    subject: "Exam schedule update",
-    snippet: "Please check the updated exam timing for next week.",
-  }
-];
+  const [emails, setEmails] = useState([]);
+  useEffect(()=> {
+    const fetchEmails = async()=> {
+      const response = await fetch("http://localhost:3000/emails");
+      const data = await response.json();
+      console.log(data);
+      setEmails(data);
+    };
+    fetchEmails();
+
+  }, []);
   
   const analyzeEmail = (email) => {
     const text = `${email.sender} ${email.subject} ${email.snippet}`.toLowerCase();
     if (
-      text.includes("Interview") ||
+      text.includes("interview") ||
       text.includes("exam") || 
       text.includes("deadline") ||
       text.includes("application")||
-      text.includes("schedule")
+      text.includes("schedule") ||
+      text.includes("placement")
     ) {
       return {
         importance: "High",
@@ -69,32 +65,46 @@ function App(){
 
 
   return (
-    <div style={{padding: "30px", fontFamily: "Arial"}}>
-      <h1>InboxIQ</h1>
-      <p>Check these emails out right now!!</p>
-
-      <div
-        style={{
-          backgroundColor: "#f5f5f521",
-          marginTop: "20px",
-          borderRadius: "12px",
-          marginBottom: "20px",
-          fontSize: "18px",
-          color: "#ddd"
-        }}
-      >
-        {count_emails} important emails found
+    <div className="min-h-screen bg-gray-100 p-8 dont-sans">
+      <div className="mb-8">
+        <h1 className="text-5xl font-bold text-gray-900">InboxIQ</h1>
+        <p className="text-gray-600 mt-2 text-lg">Check these emails out right now!!</p>
       </div>
 
-      <div style={{marginTop:"20px", marginBottom: "20px"}}>
-        <button onClick={()=>setFilter("All")}>All</button>
+      <div
+        className="mb-8 rounded-2xl bg-white p-3 shadow-sm border border-gray-200"
+      >
+      <h2 className="text-1xl font-semibold text-gray-900">{count_emails} important emails found </h2>
+      </div>
+
+      <div className="mb-6 flex gap-3">
+        <button 
+          onClick={()=>setFilter("All")}
+          className={
+            `rounded-full px-5 py-2 font-medium transition ${
+              filter === "All" ? "bg-black text-white":
+              "bg-white text-gray-700 border border-gray-300"
+            }`
+          }
+
+        >All</button>
         <button
           onClick={() => setFilter("High")}
-          style={{marginLeft: "10px"}}
+          className={
+            `rounded-full px-5 py-2 font-medium transition ${
+              filter === "High"?"bg-red-500 text-white":
+              "bg-white text-gray-700 border-gray-300"
+            }`
+          }
         >High</button>
         <button
           onClick={() => setFilter("Low")}
-          style={{marginLeft: "10px"}}
+          className={
+            `rounded-full px-5 py-2 font-medium transition ${
+              filter === "Low"?"bg-green-500 text-white":
+              "bg-white text-gray-700 border-gray-300"
+            }`
+          }
         >Low</button>
       </div>
 

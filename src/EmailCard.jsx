@@ -10,13 +10,7 @@ function EmailCard({email}){
 
   return (
     <div
-        style={{
-          border: "1px solid #ddd",
-          borderRadius: "12px",
-          padding:"16px",
-          marginTop: "20px",
-          textAlign: "left"
-        }}
+        className="rounded-2xl mb-6 border border-gray-200 bg-white p-6 shadow-sm transition hover:shadow-md"
       >
         <h2>{email.subject}</h2>
         <p>From: {email.sender}</p>
