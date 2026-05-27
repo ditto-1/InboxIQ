@@ -12,9 +12,12 @@ function EmailCard({email}){
     <div
         className="rounded-2xl mb-6 border border-gray-200 bg-white p-6 shadow-sm transition hover:shadow-md"
       >
-        <h2>{email.subject}</h2>
-        <p>From: {email.sender}</p>
-        <p>{email.snippet}</p>
+        <h2 className="text-xl font-bold">{email.subject}</h2>
+        <p className="mt-1 text-sm text-gray-700">
+          <span className="font-semibold">From: </span> {email.sender}
+        </p>
+        <hr className="my-4 border-gray-200"/>
+        <p className="text-gray-600 leading-relaxed">{email.snippet}</p>
         <div
           style={{
             backgroundColor: getBadgeColor(email.importance),

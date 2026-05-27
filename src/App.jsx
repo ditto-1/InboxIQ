@@ -3,12 +3,19 @@ import EmailCard from "./EmailCard";
 function App(){
   const [filter, setFilter] = useState("All");
   const [emails, setEmails] = useState([]);
+  const [loading, setLoading] = useState(true);
   useEffect(()=> {
     const fetchEmails = async()=> {
-      const response = await fetch("http://localhost:3000/emails");
-      const data = await response.json();
-      console.log(data);
-      setEmails(data);
+      try{
+        const response = await fetch("http://localhost:3000/emails");
+        const data = await response.json();
+        console.log(data);
+        setEmails(data);
+      } catch(error){
+        console.error(error);
+      } finally {
+        setLoading(false);
+      }
     };
     fetchEmails();
 
@@ -63,6 +70,15 @@ function App(){
     return analyzeEmail(email).importance === "High";
   }).length;
 
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <h1 className="text-2xl font-bold animate-pulse">
+          Loading emails...
+        </h1>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gray-100 p-8 dont-sans">

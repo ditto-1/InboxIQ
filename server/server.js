@@ -73,7 +73,11 @@ app.get("/emails", async(req, res) => {
           const sender =
               headers.find((header) => header.name === "From")?.value
               || "Unknown sender";
-          const snippet = email.data.snippet;
+          const snippet = email.data.snippet
+            .replaceAll("&lt;", "<")
+            .replaceAll("&gt;", ">")
+            .replaceAll("&#39;", "'")
+            .replace(/\s+/g, " ");
 
           email_data.push({
               sender,
