@@ -1,4 +1,4 @@
-function EmailCard({email}){
+function EmailCard({email, darkMode}){
     const getBadgeColor = (importance) => {
     if (importance === "High"){
       return "#a82929";
@@ -10,14 +10,28 @@ function EmailCard({email}){
 
   return (
     <div
-        className="rounded-2xl mb-6 border border-gray-200 bg-white p-6 shadow-sm transition hover:shadow-md"
-      >
+      className={`rounded-2xl mb-6 border p-6 shadow-sm transition hover:shadow-md ${
+        darkMode
+          ? "bg-gray-800 border-gray-700 text-white"
+          : "bg-white border-gray-200 text-black"
+      }`}
+    >
         <h2 className="text-xl font-bold">{email.subject}</h2>
-        <p className="mt-1 text-sm text-gray-700">
+        <p
+          className={`mt-1 text-sm ${
+            darkMode ? "text-gray-300" : "text-gray-700"
+          }`}
+        >
           <span className="font-semibold">From: </span> {email.sender}
         </p>
-        <hr className="my-4 border-gray-200"/>
-        <p className="text-gray-600 leading-relaxed">{email.snippet}</p>
+        <hr className={`my-4 ${
+            darkMode ? "border-gray-700" : "border-gray-200"
+          }`}
+        />
+        <p className={`leading-relaxed ${
+          darkMode ? "text-gray-300" : "text-gray-600"
+          }`}
+        >{email.snippet}</p>
         <div
           style={{
             backgroundColor: getBadgeColor(email.importance),

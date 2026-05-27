@@ -4,6 +4,7 @@ function App(){
   const [filter, setFilter] = useState("All");
   const [emails, setEmails] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [darkMode, setDarkMode] = useState(false);
   useEffect(()=> {
     const fetchEmails = async()=> {
       try{
@@ -81,16 +82,38 @@ function App(){
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 p-8 dont-sans">
+    <div className={`min-h-screen p-8 dont-sans transition-colors duration-300 ${
+      darkMode
+        ? "bg-gray-900 text-white"
+        : "bg-gray-100 text-black"
+    }`}
+    >
       <div className="mb-8">
-        <h1 className="text-5xl font-bold text-gray-900">InboxIQ</h1>
-        <p className="text-gray-600 mt-2 text-lg">Check these emails out right now!!</p>
+        <h1 className="text-5xl font-bold">InboxIQ</h1>
+        <p
+          className={`mt-2 text-lg ${
+            darkMode ? "text-gray-300" : "text-gray-600"
+          }`}
+        >Check these emails out right now!!</p>
+        <button 
+          onClick={() => setDarkMode(!darkMode)}
+          className="mt-4 rounded-xl bg-black px-4 py-2 text-white transition hover:opacity-80"
+        >
+          {darkMode ? "Light Mode" : "Dark Mode"}
+        </button>
       </div>
 
       <div
-        className="mb-8 rounded-2xl bg-white p-3 shadow-sm border border-gray-200"
+        className={`mb-8 rounded-2xl p-3 shadow-sm border transition-colors ${
+          darkMode
+            ? "bg-gray-800 border-gray-700"
+            : "bg-white border-gray-200"
+        }`}
       >
-      <h2 className="text-1xl font-semibold text-gray-900">{count_emails} important emails found </h2>
+      <h2 className={`text-1xl font-semibold ${
+        darkMode ? "text-white" : "text-gray-900"
+        }`}
+      >{count_emails} important emails found </h2>
       </div>
 
       <div className="mb-6 flex gap-3">
@@ -125,7 +148,7 @@ function App(){
       </div>
 
       {sortedEmails.map((email, index) => (
-        <EmailCard key={index} email={email}/>
+        <EmailCard key={index} email={email} darkMode={darkMode}/>
       ))}
     </div>
   );
