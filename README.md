@@ -1,4 +1,4 @@
-# InboxIQ 📬
+# InboxIQ
 
 InboxIQ is a full-stack email prioritization web app that connects with Gmail using Google OAuth2 and the Gmail API. It intelligently analyzes incoming emails and highlights important messages based on urgency-related keywords.
 
